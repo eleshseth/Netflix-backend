@@ -37,6 +37,7 @@ export const Login = async (req, res) => {
       .json({
         message: `Welcome Back ${user.fullName}`,
         success: true,
+        user: user,
       });
   } catch (error) {
     console.log(error);
@@ -71,7 +72,7 @@ export const Register = async (req, res) => {
     }
 
     const hashedPassword = await bcryptjs.hash(password, 16);
-    await User.create({
+    const savedUser = await User.create({
       fullName,
       email,
       password: hashedPassword,
@@ -80,6 +81,7 @@ export const Register = async (req, res) => {
     return res.status(200).json({
       message: 'Account was created succesfully ',
       success: true,
+      user: savedUser,
     });
   } catch (error) {
     console.log(error);
